@@ -68,22 +68,50 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
 
     }
 
+
     @Override
     public void inserir(E e) throws ArbreException {
-        // 如果插入的元素重复，则抛出异常
-        if(arrel.contingut.equals(e)){
-            throw new ArbreException("Duplicar elementos insertados");
-        }
-        if
+        arrel=inserir1(arrel,e);
     }
+
+    private Node inserir1(Node arrel, E e) throws ArbreException{
+        // 如果插入的元素重复，则抛出异常
+        if(arrel==null){
+            return (Node) e;
+        }
+        if(arrel.contingut.compareTo(e)==0){
+            throw new ArbreException("Duplicar elementos insertados");
+        } else if (arrel.contingut.compareTo(e) > 0) {
+            inserir1(arrel.esq,e);
+        }else{
+            inserir1(arrel.dret,e);
+        }
+        return arrel;
+    }
+
 
     @Override
     public void esborrar(E e) throws ArbreException {
+        // 如果元素不存在，则抛出异常
+        arrel=esborrar1(e,arrel);
+    }
 
+    private Node esborrar1(E e, Node arrel) throws ArbreException {
+        if(arrel == null){
+            throw new ArbreException("Element not found"); // 如果元素不存在，则抛出异常;
+        }
+        if(arrel.contingut.compareTo(e)>0){
+            esborrar1(e,arrel.esq);
+        }else if(arrel.contingut.compareTo(e)<0){
+            esborrar1(e,arrel.dret);
+        }else{
+
+        }
     }
 
     @Override
     public boolean membre(E e) {
+        // 如果元素存在于树中，则返回true
         return false;
     }
 
