@@ -1,12 +1,13 @@
 package Jugador;
 
+import Estructura.Posicio;
+
 public class Jugador {
-    public static enum Posicion{ Base, Escorta, Aler, AlerPivot, Pivot};
     int puntuacio;
-    Posicion pos;
+    Posicio pos;
     Jugador(int puntuacio,int pos){
      this.puntuacio=puntuacio;
-     Posicion[] posicions= Posicion.values();
+     Posicio[] posicions= Posicio.values();
      if(pos>=0||pos<=posicions.length){
          this.pos=posicions[pos];
      }else {
@@ -28,7 +29,7 @@ public class Jugador {
         return puntuacio;
     }
 
-    public Posicion getPos() {
+    public Posicio getPos() {
         return pos;
     }
 

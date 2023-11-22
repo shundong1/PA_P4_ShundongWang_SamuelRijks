@@ -1,7 +1,9 @@
 package Testing;
 
+import Estructura.Posicio;
+
 public class Main {
-    public static enum Posicio{ Base, Escorta, Aler, AlerPivot, Pivot};
+
 
     public static void main(String args[]) {
         // creem una variable de la enumeració
