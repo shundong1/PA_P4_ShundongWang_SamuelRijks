@@ -30,6 +30,7 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
             arrel = new Node(contingut);
             cua=new LinkedList<>();
         }
+        public AcbEnll(){this(null);}
 
 
 
@@ -213,6 +214,24 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
             throw new ArbreException("Método iniRecorregut no llamado");
         }
         return cua.poll();
+    }
+
+    //可删
+    public void printTree() {
+        printTree(arrel, 0);
+    }
+
+    private void printTree(Node arrel, int nivel) {
+        if (arrel != null) {
+            printTree(arrel.dret, nivel + 1);
+
+            for (int i = 0; i < nivel; i++) {
+                System.out.print("    "); // 打印缩进，用于显示层次结构
+            }
+            System.out.println(arrel.contingut); // 打印节点值
+
+            printTree(arrel.esq, nivel + 1);
+        }
     }
 
 }

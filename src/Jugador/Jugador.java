@@ -2,10 +2,10 @@ package Jugador;
 
 import Estructura.Posicio;
 
-public class Jugador {
+public class Jugador implements Comparable<Jugador> {
     int puntuacio;
     Posicio pos;
-    Jugador(int puntuacio,int pos){
+    public Jugador(int puntuacio, int pos){
      this.puntuacio=puntuacio;
      Posicio[] posicions= Posicio.values();
      if(pos>=0||pos<=posicions.length){
@@ -31,6 +31,16 @@ public class Jugador {
 
     public Posicio getPos() {
         return pos;
+    }
+
+    //se puede eliminar
+    public String toString() {
+        // 返回一个包含有用信息的字符串，例如：
+        return "Jugador{" +
+                "playerName='" + pos + '\'' +
+                ", score=" + puntuacio +
+                // 其他属性
+                '}';
     }
 
 }
