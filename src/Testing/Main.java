@@ -15,6 +15,7 @@ public class Main {
     public static void main(String[] args) throws ArbreException {
 
         AcbEnll<Jugador> tree = new AcbEnll<Jugador>();
+        //AcbEnll<Jugador> tree = null;
 
        while(true) {
            System.out.println("Opcions:");
@@ -123,7 +124,6 @@ public class Main {
 
             }
         }
-        int index = userChoice;
 
     Jugador Jordan = new Jugador(userChoice2,userChoice);
     System.out.println("树是不是空"+tree.abBuit());

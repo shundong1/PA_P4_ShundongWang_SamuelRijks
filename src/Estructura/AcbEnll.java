@@ -69,7 +69,7 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
     public void buidar() {
         // 清空树
         this.arrel=null;
-
+        this.cua=null;
     }
 
 
