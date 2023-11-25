@@ -3,8 +3,10 @@ package Jugador;
 import Estructura.Posicio;
 
 public class Jugador implements Comparable<Jugador> {
+
     int puntuacio;
     Posicio pos;
+
     public Jugador(int puntuacio, int pos){
      this.puntuacio=puntuacio;
      Posicio[] posicions= Posicio.values();
@@ -14,6 +16,7 @@ public class Jugador implements Comparable<Jugador> {
          System.out.println("Invalid position value");
      }
     }
+
 
     public int compareTo(Jugador a ){
         //如果两个位置一样，在比较分数，如果是1就是本地的大.如果不一样就直接返回，

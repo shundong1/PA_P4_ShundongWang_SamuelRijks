@@ -1,13 +1,11 @@
 package Estructura;
 
-import Jugador.Jugador;
-
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
 
-    private class Node {
+    private class Node implements Cloneable{
         E contingut;
         Node esq, dret;
 
@@ -19,6 +17,70 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
             this.contingut = contingut;
             this.esq = esq;
             this.dret = dret;
+        }
+
+        private int cardinalitat(){
+            int h=0;
+            if(esq!=null) h+=esq.cardinalitat();
+            if(dret!=null) h+=dret.cardinalitat();
+            return 1+h;
+        }
+        public Object clone(){
+            Node copia=null;
+            try{
+                copia=(Node) super.clone();
+                if(esq!=null) copia.esq=(Node) esq.clone();
+                if(dret!=null) copia.dret=(Node) dret.clone();
+            }catch(CloneNotSupportedException e){e.printStackTrace();}
+            return copia;
+        }
+        private Node inserir(E einf) throws ArbreException{
+            if(contingut.compareTo(einf)<0){
+                if(esq!=null) esq.inserir(einf);
+                else esq=new Node(einf);
+            } else if(contingut.compareTo(einf)>0){
+                if(dret!=null) dret.inserir(einf);
+                else dret=new Node(einf);
+            } else throw new ArbreException("element ja hi es");
+            return null;
+        }
+        private Node esborrar(E e) throws ArbreException{
+            if(arrel == null){
+                throw new ArbreException("Element not found"); // 如果元素不存在，则抛出异常;
+            }
+            if(arrel.contingut.compareTo(e)>0){
+                esborrar(arrel.esq);
+            }else if(arrel.contingut.compareTo(e)<0){
+                esborrar(arrel.dret);
+            }else{
+//  当发现一样的删除，如果没有左右节点，或者都有
+                if(arrel.dret==null&&arrel.esq==null){
+                    return null;
+                }
+                if(arrel.esq==null){
+                    arrel=arrel.dret;
+                }
+                if(arrel.dret!=null){
+                    arrel=arrel.esq;
+                }
+                //如果两个的子节点都不为null,找到他的右边最做的节点，去替换
+                Node sucesor=arrel.dret;
+                while(sucesor.esq!=null){
+                    sucesor=sucesor.esq;
+                }
+                //现在我要把刚才找到这个节点在删除
+                esborrar(sucesor.contingut,arrel.dret);
+                //现在我已经找到节点，现在我要把之前节点的左右子节点接上去
+                sucesor.esq=arrel.esq;
+                sucesor.dret=arrel.dret;
+                return sucesor;
+            }
+            return arrel;
+        }
+        private E buscarMinim(){
+            if(esq==null) return contingut;
+            Node a=esq; while(a.esq!=null) a=a.esq;
+            return a.contingut;
         }
 
     }
@@ -75,64 +137,18 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
 
     @Override
     public void inserir(E e) throws ArbreException {
-        arrel=inserir1(arrel,e);
+        arrel.inserir(e);
     }
 
-    private Node inserir1(Node arrel, E e) throws ArbreException{
-        // 如果插入的元素重复，则抛出异常
-        if(arrel==null){
-            return new Node(e);
-        }
-        if(arrel.contingut.compareTo(e)==0){
-            throw new ArbreException("Duplicar elementos insertados");
-        } else if (arrel.contingut.compareTo(e) > 0) {
-            arrel.esq=inserir1(arrel.esq,e);
-        }else{
-            arrel.dret =inserir1(arrel.dret,e);
-        }
-        return arrel;
-    }
 
 
     @Override
     public void esborrar(E e) throws ArbreException {
         // 如果元素不存在，则抛出异常
-        arrel=esborrar1(e,arrel);
+        arrel.esborrar(e);
     }
 
-    private Node esborrar1(E e, Node arrel) throws ArbreException {
-        if(arrel == null){
-            throw new ArbreException("Element not found"); // 如果元素不存在，则抛出异常;
-        }
-        if(arrel.contingut.compareTo(e)>0){
-            esborrar1(e,arrel.esq);
-        }else if(arrel.contingut.compareTo(e)<0){
-            esborrar1(e,arrel.dret);
-        }else{
-//  当发现一样的删除，如果没有左右节点，或者都有
-            if(arrel.dret==null&&arrel.esq==null){
-                return null;
-            }
-            if(arrel.esq==null){
-                arrel=arrel.dret;
-            }
-            if(arrel.dret!=null){
-                arrel=arrel.esq;
-            }
-            //如果两个的子节点都不为null,找到他的右边最做的节点，去替换
-            Node sucesor=arrel.dret;
-            while(sucesor.esq!=null){
-                sucesor=sucesor.esq;
-            }
-            //现在我要把刚才找到这个节点在删除
-            esborrar1(sucesor.contingut,arrel.dret);
-            //现在我已经找到节点，现在我要把之前节点的左右子节点接上去
-            sucesor.esq=arrel.esq;
-            sucesor.dret=arrel.dret;
-            return sucesor;
-            }
-        return arrel;
-        }
+
 
 
 
@@ -227,5 +243,17 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
             printTree(arrel.esq, nivel + 1);
         }
     }
+    public Object clone(){
+        AcbEnll<E> c=null;
+        try{
+            c=(AcbEnll<E>) super.clone();
+            c.arrel=(arrel==null)? null : (Node)arrel.clone();
+            c.cua=(cua==null)? null : (Queue<E>) ((LinkedList<E>) cua).clone();
+        }catch(CloneNotSupportedException e){e.printStackTrace();}
+        return c;
+    }
+    //计算并返回基数，即树的节点数
+    public int cardinalitat(){return(abBuit())?0:arrel.cardinalitat();}
+
 
 }

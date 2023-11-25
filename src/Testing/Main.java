@@ -14,18 +14,19 @@ public class Main {
 
     public static void main(String[] args) throws ArbreException {
 
-        AcbEnll<Jugador> tree = new AcbEnll<Jugador>();
+        //AcbEnll<Jugador> tree = new AcbEnll<Jugador>();
+        AcbEnll<Jugador> tree = null;
 
-       while(true) {
-           System.out.println("Opcions:");
-           int a = pregunta();
-           if (a == 1) InserirJugador(tree);
-           if (a == 2) EliminarJugador(tree);
-           if (a == 3) Visualtzar(tree);
-           tree.printTree();
-       }
+        while(true) {
+            System.out.println("Opcions:");
+            int a = pregunta();
+            if (a == 1) InserirJugador(tree);
+            if (a == 2) EliminarJugador(tree);
+            if (a == 3) Visualtzar(tree);
+            tree.printTree();
+        }
 
-}
+    }
 
     private static void Visualtzar(AcbEnll tree) {
         Scanner scanner = new Scanner(System.in);
@@ -45,23 +46,23 @@ public class Main {
     }
 
     private static void EliminarJugador(AcbEnll tree) throws ArbreException {
-            Scanner scanner = new Scanner(System.in);
-            Posicio[] list = Posicio.values();
-            int userChoice =0;
-            int userChoice2;
+        Scanner scanner = new Scanner(System.in);
+        Posicio[] list = Posicio.values();
+        int userChoice =0;
+        int userChoice2;
 
-            while(true) {
-                for (int i = 1; i <= list.length; i++)
-                    System.out.println(i + "-" + list[i - 1]);
-                System.out.println("Indica la seva posició [1,5] ");
-                userChoice = Integer.parseInt(scanner.nextLine());
-                if (userChoice >= 1 && userChoice <= 5) {
-                    break; // 如果用户输入在合法范围内，跳出循环
-                } else {
-                    System.out.println("Entrada inválida. Por favor introduzca un número entre 1 y 5.");
-                    System.out.println("Tria una opció [1,5]: ");
-                }
+        while(true) {
+            for (int i = 1; i <= list.length; i++)
+                System.out.println(i + "-" + list[i - 1]);
+            System.out.println("Indica la seva posició [1,5] ");
+            userChoice = Integer.parseInt(scanner.nextLine());
+            if (userChoice >= 1 && userChoice <= 5) {
+                break; // 如果用户输入在合法范围内，跳出循环
+            } else {
+                System.out.println("Entrada inválida. Por favor introduzca un número entre 1 y 5.");
+                System.out.println("Tria una opció [1,5]: ");
             }
+        }
 
         while(true) {
             System.out.println("Indica la seva posició [0,1000] ");
@@ -87,7 +88,7 @@ public class Main {
             }
         }
 
-        }
+    }
 
 
 
@@ -101,17 +102,17 @@ public class Main {
         int userChoice2 =0;
 
         while(true) {
-              for (int i = 1; i <= list.length; i++)
-                  System.out.println(i + "-" + list[i - 1]);
-              System.out.println("Indica la seva posició [1,5] ");
-              userChoice = Integer.parseInt(scanner.nextLine());
-              if (userChoice >= 1 && userChoice <= 5) {
-                  break; // 如果用户输入在合法范围内，跳出循环
-              } else {
-                  System.out.println("Entrada inválida. Por favor introduzca un número entre 1 y 5.");
-                  System.out.println("Tria una opció [1,5]: ");
-              }
-          }
+            for (int i = 1; i <= list.length; i++)
+                System.out.println(i + "-" + list[i - 1]);
+            System.out.println("Indica la seva posició [1,5] ");
+            userChoice = Integer.parseInt(scanner.nextLine());
+            if (userChoice >= 1 && userChoice <= 5) {
+                break; // 如果用户输入在合法范围内，跳出循环
+            } else {
+                System.out.println("Entrada inválida. Por favor introduzca un número entre 1 y 5.");
+                System.out.println("Tria una opció [1,5]: ");
+            }
+        }
 
         while(true) {
             System.out.println("Indica la seva posició [0,1000] ");
@@ -123,13 +124,12 @@ public class Main {
 
             }
         }
-        int index = userChoice;
 
-    Jugador Jordan = new Jugador(userChoice2,userChoice);
-    System.out.println("树是不是空"+tree.abBuit());
-    tree.printTree();
-    //先判断树是否为空，如果不是插入
-        if(tree.abBuit())  {
+        Jugador Jordan = new Jugador(userChoice2,userChoice);
+
+
+        //先判断树是否为空，如果不是插入
+        if(tree==null)  {
             tree = new AcbEnll<Jugador>((Jugador) Jordan);
         } else{
             // 在这里插入逻辑
@@ -163,4 +163,4 @@ public class Main {
         }
         return userChoice;
     }
-    }
+}
