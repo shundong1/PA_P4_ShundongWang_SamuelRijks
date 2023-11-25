@@ -6,6 +6,10 @@ import java.util.Queue;
 public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
 
     private class Node implements Cloneable{
+        public E getContingut() {
+            return contingut;
+        }
+
         E contingut;
         Node esq, dret;
 
@@ -26,6 +30,7 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
             return 1+h;
         }
         public Object clone(){
+            //拷贝的方法
             Node copia=null;
             try{
                 copia=(Node) super.clone();
@@ -44,38 +49,26 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
             } else throw new ArbreException("element ja hi es");
             return null;
         }
-        private Node esborrar(E e) throws ArbreException{
-            if(arrel == null){
-                throw new ArbreException("Element not found"); // 如果元素不存在，则抛出异常;
-            }
-            if(arrel.contingut.compareTo(e)>0){
-                esborrar(arrel.esq);
-            }else if(arrel.contingut.compareTo(e)<0){
-                esborrar(arrel.dret);
-            }else{
-//  当发现一样的删除，如果没有左右节点，或者都有
-                if(arrel.dret==null&&arrel.esq==null){
-                    return null;
-                }
-                if(arrel.esq==null){
-                    arrel=arrel.dret;
-                }
-                if(arrel.dret!=null){
-                    arrel=arrel.esq;
-                }
-                //如果两个的子节点都不为null,找到他的右边最做的节点，去替换
-                Node sucesor=arrel.dret;
-                while(sucesor.esq!=null){
-                    sucesor=sucesor.esq;
-                }
-                //现在我要把刚才找到这个节点在删除
-                esborrar(sucesor.contingut,arrel.dret);
-                //现在我已经找到节点，现在我要把之前节点的左右子节点接上去
-                sucesor.esq=arrel.esq;
-                sucesor.dret=arrel.dret;
-                return sucesor;
-            }
-            return arrel;
+
+        private Node esborrar(E einf) throws ArbreException{
+            if(contingut.compareTo(einf)<0){
+                if(esq!=null){
+                    esq=esq.esborrar(einf); return this;
+                } else throw new ArbreException("no hi es");
+            }else if(contingut.compareTo(einf)>0){
+                if(dret!=null){
+                    dret=dret.esborrar(einf); return this;
+                } else throw new ArbreException("no hi es");
+            }else if(esq!=null&&dret!=null){
+                contingut=dret.buscarMinim();
+                dret=dret.esborrar(contingut);
+                return this;
+            }else
+                return(
+                        (esq==null&&dret==null)?
+                                null:
+                                ((esq==null)?dret:esq)
+                );
         }
         private E buscarMinim(){
             if(esq==null) return contingut;
@@ -83,8 +76,19 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
             return a.contingut;
         }
 
+
+        private boolean hiEs(E einf){
+            if(contingut.compareTo(einf)<0) return (esq==null)?false:esq.hiEs(einf);
+            else if (contingut.compareTo(einf)>0) return (dret==null)?false:dret.hiEs(einf);
+            else return true;
+        }
     }
-        private Node arrel;
+
+    public Node getArrel() {
+        return arrel;
+    }
+
+    private Node arrel;
         private Queue<E> cua;
 
 
@@ -136,38 +140,27 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
 
 
     @Override
-    public void inserir(E e) throws ArbreException {
-        arrel.inserir(e);
+    public void inserir(E e) throws ArbreException{
+        if(arrel==null) arrel=new Node(e, null, null);
+        else arrel.inserir(e);
+        cua=null;
     }
+
 
 
 
     @Override
-    public void esborrar(E e) throws ArbreException {
-        // 如果元素不存在，则抛出异常
-        arrel.esborrar(e);
+    public void esborrar(E e) throws ArbreException{
+        if(arrel==null) throw new ArbreException("l'arbre es buit");
+        arrel=arrel.esborrar(e);
+        cua=null;
     }
-
-
-
 
 
     @Override
     public boolean membre(E e) {
         // 如果元素存在于树中，则返回true
-        return membre1(e,arrel);
-    }
-
-    private boolean membre1(E e, Node arrel) {
-        if(arrel==null){
-            return false;
-        }
-        if(arrel.contingut.equals(e)){
-            return true;
-        }
-        boolean leftresult=membre1(e,arrel.esq);
-        boolean rightresul=membre1(e,arrel.dret);
-        return leftresult||rightresul;
+        return (arrel==null)?false:arrel.hiEs(e);
     }
 
     public void iniRecorregut(boolean sentit) {

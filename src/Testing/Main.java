@@ -14,8 +14,8 @@ public class Main {
 
     public static void main(String[] args) throws ArbreException {
 
-        //AcbEnll<Jugador> tree = new AcbEnll<Jugador>();
-        AcbEnll<Jugador> tree = null;
+        AcbEnll<Jugador> tree = new AcbEnll<Jugador>();
+        //AcbEnll<Jugador> tree = null;
 
         while(true) {
             System.out.println("Opcions:");
@@ -43,6 +43,16 @@ public class Main {
                 System.out.println("Entrada inválida. Por favor introduzca un número entre 1 0 2.");
             }
         }
+        tree.iniRecorregut(sentit);
+        while(!tree.finalRecorregut()){
+            try {
+                E c=tree.segRecorregut();
+                System.out.print(c);
+            } catch (ArbreException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("\n");
     }
 
     private static void EliminarJugador(AcbEnll tree) throws ArbreException {
@@ -129,7 +139,7 @@ public class Main {
 
 
         //先判断树是否为空，如果不是插入
-        if(tree==null)  {
+        if(tree.getArrel())  {
             tree = new AcbEnll<Jugador>((Jugador) Jordan);
         } else{
             // 在这里插入逻辑
