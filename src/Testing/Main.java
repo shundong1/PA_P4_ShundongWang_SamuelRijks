@@ -12,15 +12,18 @@ import java.util.Scanner;
 public class Main {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ArbreException {
 
-        AcbEnll<Jugador> tree = null;
+        AcbEnll<Jugador> tree = new AcbEnll<Jugador>();
 
-        System.out.println("Opcions:");
-        int a = pregunta();
-        if(a==1) InserirJugador(tree);
-        if(a==2) EliminarJugador(tree);
-        if(a==3) Visualtzar(tree);
+       while(true) {
+           System.out.println("Opcions:");
+           int a = pregunta();
+           if (a == 1) InserirJugador(tree);
+           if (a == 2) EliminarJugador(tree);
+           if (a == 3) Visualtzar(tree);
+           tree.printTree();
+       }
 
 }
 
@@ -41,10 +44,11 @@ public class Main {
         }
     }
 
-    private static void EliminarJugador(AcbEnll tree) {
+    private static void EliminarJugador(AcbEnll tree) throws ArbreException {
             Scanner scanner = new Scanner(System.in);
             Posicio[] list = Posicio.values();
             int userChoice =0;
+            int userChoice2;
 
             while(true) {
                 for (int i = 1; i <= list.length; i++)
@@ -59,7 +63,29 @@ public class Main {
                 }
             }
 
+        while(true) {
+            System.out.println("Indica la seva posició [0,1000] ");
+            userChoice2 = Integer.parseInt(scanner.nextLine());
+            if (userChoice2 >= 0 && userChoice2 <= 1000) {
+                break; // 如果用户输入在合法范围内，跳出循环
+            } else {
+                System.out.println("Entrada inválida. Por favor introduzca un número entre 0 y 1000.");
 
+            }
+        }
+        int index = userChoice;
+
+        Jugador Jordan = new Jugador(userChoice2,userChoice);
+
+        //上面我已经根据各科需求完成创建，下面我要查找它并删除
+        if(tree.membre(Jordan)){
+            try{
+                tree.esborrar(Jordan);
+                System.out.println("S´ha eliminat el jugador"+ Jordan.getPos() +" - "+Jordan.getPuntuacio());
+            }catch (ArbreException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         }
 
@@ -97,12 +123,13 @@ public class Main {
 
             }
         }
-        int index = userChoice; //caldrà utilitzar scanner o keyboard
+        int index = userChoice;
 
     Jugador Jordan = new Jugador(userChoice2,userChoice);
-
+    System.out.println("树是不是空"+tree.abBuit());
+    tree.printTree();
     //先判断树是否为空，如果不是插入
-        if(tree==null)  {
+        if(tree.abBuit())  {
             tree = new AcbEnll<Jugador>((Jugador) Jordan);
         } else{
             // 在这里插入逻辑
@@ -113,7 +140,7 @@ public class Main {
                 e.printStackTrace();
             }
         }
-    tree.printTree();
+
     }
 
     private static int pregunta() {

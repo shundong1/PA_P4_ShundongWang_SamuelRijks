@@ -63,13 +63,7 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
     }
 
     @Override
-    public boolean abBuit() {
-        // 告诉我们树是否为空
-        if(arrel==null){
-        return true;
-        }
-        return false;
-    }
+    public boolean abBuit(){return arrel==null;}
 
     @Override
     public void buidar() {
