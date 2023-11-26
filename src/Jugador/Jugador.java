@@ -39,11 +39,12 @@ public class Jugador implements Comparable<Jugador> {
     //se puede eliminar
     public String toString() {
         // 返回一个包含有用信息的字符串，例如：
-        return "Jugador{" +
+        return pos + "-" + puntuacio + "\n";
+        /*return "Jugador{" +
                 "playerName='" + pos + '\'' +
                 ", score=" + puntuacio +
                 // 其他属性
-                '}';
+                '}';*/
     }
 
 }

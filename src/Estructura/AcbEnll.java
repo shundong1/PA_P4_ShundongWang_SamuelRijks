@@ -3,7 +3,7 @@ package Estructura;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
+public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
 
     private class Node implements Cloneable{
         public E getContingut() {
@@ -82,19 +82,28 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
             else if (contingut.compareTo(einf)>0) return (dret==null)?false:dret.hiEs(einf);
             else return true;
         }
+
+        public void inordre(boolean sentit, Queue<E> cua) {
+            Node a1=(sentit)?dret:esq;
+            Node a2=(sentit)?esq:dret;
+
+            if(a1!=null) a1.inordre(sentit, cua);
+            cua.add(contingut);
+            if(a2!=null) a2.inordre(sentit, cua);
+        }
     }
 
     public Node getArrel() {
         return arrel;
     }
 
-    private Node arrel;
-        private Queue<E> cua;
+        private Node arrel;
+        private Queue<E> cua=null;
 
 
-        public  AcbEnll(E contingut ){
-            arrel = new Node(contingut);
-            cua=new LinkedList<>();
+        public  AcbEnll(Node a){
+            arrel = a;
+            cua= null;
         }
         public AcbEnll(){this(null);}
 
@@ -141,7 +150,7 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
 
     @Override
     public void inserir(E e) throws ArbreException{
-        if(arrel==null) arrel=new Node(e, null, null);
+        if(arrel ==null) arrel=new Node(e, null, null);
         else arrel.inserir(e);
         cua=null;
     }
@@ -167,16 +176,22 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
         // 该方法进行准备工作，需要用树的元素填充属性队列，顺序取决于输入参数sentit：
         //遍历的开始
 
-        if(sentit){
-            //- true：按照在理论课上学过的中序遍历进行排序，得到升序排列。
-            RecorrerYAgregarRlementos(cua,arrel);
-        }else {
-            //- false：按照中序遍历，交换左右子树的处理方式，得到降序排列。
-            RecorrerYAgregarRlementosDescendente(cua,arrel);
+           /* if(sentit){
+                //- true：按照在理论课上学过的中序遍历进行排序，得到升序排列。
+                RecorrerYAgregarRlementos(cua,arrel);
+            }else {
+                //- false：按照中序遍历，交换左右子树的处理方式，得到降序排列。
+
+                RecorrerYAgregarRlementosDescendente(cua,arrel);
+            }*/
+
+        if(arrel!=null){
+            cua=new LinkedList<E>();
+            arrel.inordre(sentit, cua);
         }
         }
 
-    private void RecorrerYAgregarRlementosDescendente(Queue<E> cua, Node arrel) {
+    /*private void RecorrerYAgregarRlementosDescendente(Queue<E> cua, Node arrel) {
         if(arrel.contingut!=null){
             RecorrerYAgregarRlementos(cua,arrel.dret);
             cua.add(arrel.contingut);
@@ -186,13 +201,15 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
 
     private void RecorrerYAgregarRlementos(Queue<E> cua, Node arrel) {
             //中序遍历
-            if(arrel.contingut!=null){
+        System.out.println(arrel.contingut.toString());
+
+        if(arrel.contingut!=null){
                 RecorrerYAgregarRlementos(cua,arrel.esq);
                 cua.add(arrel.contingut);
                 RecorrerYAgregarRlementos(cua,arrel.dret);
             }
 
-    }
+    }*/
 
     public boolean finalRecorregut(){
             /* 如果已经到达树的中序遍历的末尾，则返回true。条件包括：
@@ -216,7 +233,8 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E> {
         if(cua.isEmpty()){
             throw new ArbreException("Método iniRecorregut no llamado");
         }
-        return cua.poll();
+        E elememnt = cua.remove();
+        return elememnt;
     }
 
     //可删
