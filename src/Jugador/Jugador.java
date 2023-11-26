@@ -10,7 +10,7 @@ public class Jugador implements Comparable<Jugador> {
     public Jugador(int puntuacio, int pos){
      this.puntuacio=puntuacio;
      Posicio[] posicions= Posicio.values();
-     if(pos>=0||pos<=posicions.length){
+     if(pos>=0 && pos< posicions.length){
          this.pos=posicions[pos];
      }else {
          System.out.println("Invalid position value");

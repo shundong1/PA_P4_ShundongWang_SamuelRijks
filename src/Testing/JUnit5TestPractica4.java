@@ -26,12 +26,12 @@ class JUnit5TestPractica4 {
     @Test
     void testArbre1() {
         ArrayList<Jugador> unaLista = new ArrayList<Jugador> ();
-        unaLista.add( new Jugador(Posicio.Aler.ordinal(), 30));
-        unaLista.add( new Jugador(Posicio.Aler.ordinal(), 20));
-        unaLista.add( new Jugador(Posicio.Pivot.ordinal(), 33));
-        unaLista.add( new Jugador(Posicio.Base.ordinal(), 40));
-        unaLista.add( new Jugador(Posicio.Aler.ordinal(), 35));
-        unaLista.add( new Jugador(Posicio.Aler.ordinal(), 25));
+        unaLista.add( new Jugador(30, Posicio.Aler.ordinal()));
+        unaLista.add( new Jugador(20, Posicio.Aler.ordinal()));
+        unaLista.add( new Jugador(33, Posicio.Pivot.ordinal()));
+        unaLista.add( new Jugador(40, Posicio.Base.ordinal()));
+        unaLista.add( new Jugador(35, Posicio.Aler.ordinal()));
+        unaLista.add( new Jugador(25, Posicio.Aler.ordinal()));
 
         arbre = new AcbEnll<>();
         for (int i = 0; i < unaLista.size(); i++) {
@@ -48,12 +48,12 @@ class JUnit5TestPractica4 {
     @Test
     void testArbre2QueueAscendent() {
         ArrayList<Jugador> unaLista = new ArrayList<Jugador> ();
-        unaLista.add( new Jugador(Posicio.Base.ordinal(), 40));
-        unaLista.add( new Jugador(Posicio.Aler.ordinal(), 20));
-        unaLista.add( new Jugador(Posicio.Aler.ordinal(), 25));
-        unaLista.add( new Jugador(Posicio.Aler.ordinal(), 30));
-        unaLista.add( new Jugador(Posicio.Aler.ordinal(), 35));
-        unaLista.add( new Jugador(Posicio.Pivot.ordinal(), 33));
+        unaLista.add( new Jugador(40, Posicio.Base.ordinal()));
+        unaLista.add( new Jugador(20, Posicio.Aler.ordinal()));
+        unaLista.add( new Jugador(25, Posicio.Aler.ordinal()));
+        unaLista.add( new Jugador(30, Posicio.Aler.ordinal()));
+        unaLista.add( new Jugador(35, Posicio.Aler.ordinal()));
+        unaLista.add( new Jugador(33, Posicio.Pivot.ordinal()));
 
         // comprovem la queue
         assertTrue(arbre.finalRecorregut());
