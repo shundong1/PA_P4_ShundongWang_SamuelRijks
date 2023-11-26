@@ -4,9 +4,6 @@ import Estructura.AcbEnll;
 import Estructura.ArbreException;
 import Estructura.Posicio;
 import Jugador.Jugador;
-import org.w3c.dom.Node;
-
-import java.time.chrono.JapaneseChronology;
 import java.util.Scanner;
 
 public class Main {
@@ -16,18 +13,29 @@ public class Main {
 
         AcbEnll<Jugador> tree = new AcbEnll<>();
         //AcbEnll<Jugador> tree = null;
-
+        AcbEnll<Jugador> clonat = new AcbEnll<>();
         while(true) {
             System.out.println("Opcions:");
             int a = pregunta();
             if (a == 1) InserirJugador(tree);
             if (a == 2) EliminarJugador(tree);
-            if (a == 3) Visualitzar(tree);
+            if (a == 3) Visualitzar(tree, clonat);
+            if (a == 4) clonat = clonar(tree,clonat);
+            if (a == 5) System.out.println("Acabat!");break;
+
+
         }
 
     }
 
-    private static void Visualitzar(AcbEnll tree) {
+    private static AcbEnll<Jugador> clonar(AcbEnll<Jugador> tree, AcbEnll<Jugador> clonat) {
+        clonat=(AcbEnll<Jugador>) tree.clone();
+        clonat.printTree();
+        return clonat;
+    }
+
+
+    private static void Visualitzar(AcbEnll tree, AcbEnll<Jugador> clonat) {
         Scanner scanner = new Scanner(System.in);
         int userChoice = 0;
         int userChoice2 = 0;
@@ -59,6 +67,7 @@ public class Main {
         if(userChoice2==2){
         sentit=false;
         }
+        if(userChoice==1){
         tree.iniRecorregut(sentit);
         while(!tree.finalRecorregut()){
             try {
@@ -70,6 +79,21 @@ public class Main {
         }
         System.out.println("\n");
     }
+        else{
+            clonat.iniRecorregut(sentit);
+            while(!clonat.finalRecorregut()){
+                try {
+                    Jugador c=(Jugador)clonat.segRecorregut();
+                    System.out.print(c);
+                } catch (ArbreException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println("\n");
+        }
+
+    }
+
 
     private static void EliminarJugador(AcbEnll tree) throws ArbreException {
         Scanner scanner = new Scanner(System.in);
