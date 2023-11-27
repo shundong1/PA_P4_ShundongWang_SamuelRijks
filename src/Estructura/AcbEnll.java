@@ -98,12 +98,12 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
     }
 
         private Node arrel;
-        private Queue<E> cua=null;
+        private Queue<E> cua ;
 
 
         public  AcbEnll(Node a){
             arrel = a;
-            cua= null;
+            cua= new LinkedList<E>();
         }
         public AcbEnll(){this(null);}
 
@@ -152,7 +152,7 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
     public void inserir(E e) throws ArbreException{
         if(arrel ==null) arrel=new Node(e, null, null);
         else arrel.inserir(e);
-        cua=null;
+
     }
 
 
@@ -162,7 +162,7 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
     public void esborrar(E e) throws ArbreException{
         if(arrel==null) throw new ArbreException("l'arbre es buit");
         arrel=arrel.esborrar(e);
-        cua=null;
+
     }
 
 

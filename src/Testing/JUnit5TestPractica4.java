@@ -2,6 +2,8 @@ package Testing;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer;
@@ -74,12 +76,12 @@ class JUnit5TestPractica4 {
     @Test
     void testArbre3QueueDescendent() {
         ArrayList<Jugador> unaLista = new ArrayList<Jugador> ();
-        unaLista.add( new Jugador(Posicio.Base.ordinal(), 40));
-        unaLista.add( new Jugador(Posicio.Aler.ordinal(), 20));
-        unaLista.add( new Jugador(Posicio.Aler.ordinal(), 25));
-        unaLista.add( new Jugador(Posicio.Aler.ordinal(), 30));
-        unaLista.add( new Jugador(Posicio.Aler.ordinal(), 35));
-        unaLista.add( new Jugador(Posicio.Pivot.ordinal(), 33));
+        unaLista.add( new Jugador(40, Posicio.Base.ordinal()));
+        unaLista.add( new Jugador(20, Posicio.Aler.ordinal()));
+        unaLista.add( new Jugador(25, Posicio.Aler.ordinal()));
+        unaLista.add( new Jugador(30, Posicio.Aler.ordinal()));
+        unaLista.add( new Jugador(35, Posicio.Aler.ordinal()));
+        unaLista.add( new Jugador(33, Posicio.Pivot.ordinal()));
 
         assertTrue(arbre.finalRecorregut());
         arbre.iniRecorregut(false); //descendent
@@ -97,14 +99,14 @@ class JUnit5TestPractica4 {
     @Test
     void testArbre4inserirDuplicat() {
         assertThrows(ArbreException.class, () -> {
-            arbre.inserir(new Jugador(Posicio.Aler.ordinal(), 20));
+            arbre.inserir(new Jugador( 20,Posicio.Aler.ordinal()));
         });
     }
 
     @Test
     void testArbre5eliminarInexistent() {
         assertThrows(ArbreException.class, () -> {
-            arbre.esborrar(new Jugador(Posicio.Escorta.ordinal(), 20));
+            arbre.esborrar(new Jugador(20,Posicio.Escorta.ordinal()));
         });
     }
 
@@ -115,14 +117,14 @@ class JUnit5TestPractica4 {
         AcbEnll<Jugador> arbreClonat =  (AcbEnll<Jugador>) arbre.clone();
         assertEquals(cardinalitat, arbreClonat.cardinalitat());
         try {
-            arbre.inserir(new Jugador(Posicio.AlerPivot.ordinal(), 10));
+            arbre.inserir(new Jugador(10,Posicio.AlerPivot.ordinal()));
         } catch (ArbreException e) {
             fail(e.getMessage());
         }
         assertEquals(cardinalitat+1, arbre.cardinalitat());
         assertEquals(cardinalitat, arbreClonat.cardinalitat());
         try {
-            arbre.esborrar(new Jugador(Posicio.Aler.ordinal(), 20));
+            arbre.esborrar(new Jugador(20,Posicio.Aler.ordinal()));
         } catch (ArbreException e) {
             fail(e.getMessage());
         }
