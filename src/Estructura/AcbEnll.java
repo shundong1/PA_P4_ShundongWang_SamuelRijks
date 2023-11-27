@@ -227,7 +227,7 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
     }*/
 
     public boolean finalRecorregut(){
-            /* 如果已经到达树的中序遍历的末尾，则返回true。条件包括：
+        /* 如果已经到达树的中序遍历的末尾，则返回true。条件包括：
    - 树为空
    - 上一次调用segRecorregut方法时，该方法已经返回了树的中序遍历的最后一个元素。
    这等同于在没有调用segRecorregut方法的情况下返回true。
@@ -245,8 +245,19 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
    - 上一次调用已经返回了遍历的最后一个元素（finalRecorregut将返回true）
    - 在调用iniRecorregut和该方法之间对树进行了修改，即使用了插入、删除、清空等方法。
 */
-        if(cua.isEmpty()){
-            throw new ArbreException("Método iniRecorregut no llamado");
+        // 1. 检查是否调用了 iniRecorregut 方法
+        if (cua == null) {
+            throw new ArbreException("Mètode iniRecorregut no cridat abans d'invocar aquest mètode");
+        }
+
+        // 2. 检查是否在上一次调用中返回了最后一个元素
+        if (finalRecorregut()) {
+            throw new ArbreException("Aquest mètode ja ha retornat l'últim element del recorregut");
+        }
+
+        // 3. 检查是否在 iniRecorregut 和该方法之间对树进行了修改
+        if (cua.isEmpty()) {
+            throw new ArbreException("S'ha produït una modificació de l'arbre entre iniRecorregut i segRecorregut");
         }
         E element = cua.remove();
         return element;

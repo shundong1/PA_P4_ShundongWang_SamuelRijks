@@ -21,7 +21,9 @@ public class Main {
             if (a == 2) EliminarJugador(tree);
             if (a == 3) Visualitzar(tree, clonat);
             if (a == 4) clonat = clonar(tree,clonat);
-            if (a == 5) {System.out.println("Acabat!");break;}
+            if (a == 5) {System.out.println("Acabat!");
+                tree.buidar();
+                break;}
 
 
         }
