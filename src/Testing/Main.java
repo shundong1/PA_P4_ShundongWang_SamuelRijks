@@ -28,14 +28,14 @@ public class Main {
 
     }
 
-    private static AcbEnll<Jugador> clonar(AcbEnll<Jugador> tree, AcbEnll<Jugador> clonat) {
-        clonat=(AcbEnll<Jugador>) tree.clone();
+    private static AcbEnll<Jugador> clonar(AcbEnll<Jugador> tree, AcbEnll<Jugador> clonat) throws ArbreException {
+        clonat=(AcbEnll<Jugador>) tree.clonar();
         clonat.printTree();
         return clonat;
     }
 
 
-    private static void Visualitzar(AcbEnll tree, AcbEnll<Jugador> clonat) {
+    private static void Visualitzar(AcbEnll tree, AcbEnll<Jugador> clonat) throws ArbreException {
         Scanner scanner = new Scanner(System.in);
         int userChoice = 0;
         int userChoice2 = 0;
@@ -127,20 +127,12 @@ public class Main {
 
         Jugador Jordan = new Jugador(userChoice2,userChoice-1);
 
-        //上面我已经根据各科需求完成创建，下面我要查找它并删除
-        if(tree.membre(Jordan)){
-            try{
-                tree.esborrar(Jordan);
-                System.out.println("S´ha eliminat el jugador"+ Jordan.getPos() +" - "+Jordan.getPuntuacio());
-            }catch (ArbreException e) {
-                throw new RuntimeException(e);
-            }
+        if (tree.membre(Jordan)) {
+            tree.esborrar(Jordan);
+            System.out.println("S'ha eliminat el jugador " + Jordan.getPos() + " - " + Jordan.getPuntuacio());
         }
 
     }
-
-
-
 
 
 

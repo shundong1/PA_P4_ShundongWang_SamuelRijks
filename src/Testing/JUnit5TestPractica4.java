@@ -48,7 +48,7 @@ class JUnit5TestPractica4 {
     }
 
     @Test
-    void testArbre2QueueAscendent() {
+    void testArbre2QueueAscendent() throws ArbreException {
         ArrayList<Jugador> unaLista = new ArrayList<Jugador> ();
         unaLista.add( new Jugador(40, Posicio.Base.ordinal()));
         unaLista.add( new Jugador(20, Posicio.Aler.ordinal()));
@@ -74,7 +74,7 @@ class JUnit5TestPractica4 {
     }
 
     @Test
-    void testArbre3QueueDescendent() {
+    void testArbre3QueueDescendent() throws ArbreException {
         ArrayList<Jugador> unaLista = new ArrayList<Jugador> ();
         unaLista.add( new Jugador(40, Posicio.Base.ordinal()));
         unaLista.add( new Jugador(20, Posicio.Aler.ordinal()));

@@ -22,6 +22,6 @@ public interface Acb<E extends Comparable<E>> extends Cloneable {
     public void esborrar(E e) throws ArbreException;
     // 如果元素不存在，则抛出异常
 
-    public boolean membre(E e);
+    public boolean membre(E e) throws ArbreException;
     // 如果元素存在于树中，则返回true
 }

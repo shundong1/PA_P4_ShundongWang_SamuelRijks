@@ -160,6 +160,9 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
 
     @Override
     public void esborrar(E e) throws ArbreException{
+        if (cardinalitat() == 0) {
+            throw new ArbreException("No es pot eliminar, l'arbre és buit");
+        }
         if(arrel==null) throw new ArbreException("l'arbre es buit");
         arrel=arrel.esborrar(e);
 
@@ -167,12 +170,20 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
 
 
     @Override
-    public boolean membre(E e) {
+    public boolean membre(E e) throws ArbreException {
         // 如果元素存在于树中，则返回true
-        return (arrel==null)?false:arrel.hiEs(e);
+        if (arrel == null) {
+            throw new ArbreException("L'arbre és buit");
+        }
+        // Verifica si el elemento está en el árbol, si no está, lanza una excepción
+
+        if (!arrel.hiEs(e)) {
+            throw new ArbreException("L'element no es troba a l'arbre");
+        }
+        return true;
     }
 
-    public void iniRecorregut(boolean sentit) {
+    public void iniRecorregut(boolean sentit) throws ArbreException {
         // 该方法进行准备工作，需要用树的元素填充属性队列，顺序取决于输入参数sentit：
         //遍历的开始
 
@@ -184,6 +195,10 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
 
                 RecorrerYAgregarRlementosDescendente(cua,arrel);
             }*/
+
+        if (cardinalitat() == 0) {
+            throw new ArbreException("No es pot visualitzar, l'arbre és buit");
+        }
 
         if(arrel!=null){
             cua=new LinkedList<E>();
@@ -233,8 +248,8 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
         if(cua.isEmpty()){
             throw new ArbreException("Método iniRecorregut no llamado");
         }
-        E elememnt = cua.remove();
-        return elememnt;
+        E element = cua.remove();
+        return element;
     }
 
     //可删
@@ -254,7 +269,13 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
             printTree(arrel.esq, nivel + 1);
         }
     }
-    public Object clone(){
+    public Object clonar() throws ArbreException {
+        if (cardinalitat() == 0) {
+            throw new ArbreException("No es pot visualitzar, l'arbre és buit");
+        }
+        return clone();
+    }
+    public Object clone() {
         AcbEnll<E> c=null;
         try{
             c=(AcbEnll<E>) super.clone();
