@@ -4,6 +4,7 @@ import Estructura.AcbEnll;
 import Estructura.ArbreException;
 import Estructura.Posicio;
 import Jugador.Jugador;
+
 import java.util.Scanner;
 
 public class Main {
@@ -12,36 +13,34 @@ public class Main {
     public static void main(String[] args) throws ArbreException {
 
         AcbEnll<Jugador> tree = new AcbEnll<>();
-        //AcbEnll<Jugador> tree = null;
         AcbEnll<Jugador> clonat = new AcbEnll<>();
-        while(true) {
+        while (true) {
             System.out.println("Opcions:");
             int a = pregunta();
             if (a == 1) InserirJugador(tree);
             if (a == 2) EliminarJugador(tree);
             if (a == 3) Visualitzar(tree, clonat);
-            if (a == 4) clonat = clonar(tree,clonat);
-            if (a == 5) {System.out.println("Acabat!");
+            if (a == 4) clonat = clonar(tree, clonat);
+            if (a == 5) {
+                System.out.println("Acabat!");
                 tree.buidar();
-                break;}
-
+                break;
+            }
 
         }
 
     }
 
     private static AcbEnll<Jugador> clonar(AcbEnll<Jugador> tree, AcbEnll<Jugador> clonat) throws ArbreException {
-        clonat=(AcbEnll<Jugador>) tree.clonar();
-        clonat.printTree();
+        clonat = (AcbEnll<Jugador>) tree.clonar();
         return clonat;
     }
-
 
     private static void Visualitzar(AcbEnll tree, AcbEnll<Jugador> clonat) throws ArbreException {
         Scanner scanner = new Scanner(System.in);
         int userChoice = 0;
         int userChoice2 = 0;
-        boolean sentit= true;
+        boolean sentit = true;
         while (true) {
             System.out.println("Indica en quin arbre vols mostrar");
             System.out.println("1.- Actual");
@@ -54,7 +53,7 @@ public class Main {
                 System.out.println("Entrada inválida. Por favor introduzca un número entre 1 0 2.");
             }
         }
-        while(true){
+        while (true) {
             System.out.println("Indica en quin arbre vols mostrar");
             System.out.println("1. - Ascendent");
             System.out.println("2. - Descendent");
@@ -66,29 +65,28 @@ public class Main {
                 System.out.println("Entrada inválida. Por favor introduzca un número entre 1 0 2.");
             }
         }
-        if(userChoice2==2){
-        sentit=false;
+        if (userChoice2 == 2) {
+            sentit = false;
         }
-        if(userChoice==1){
-        tree.iniRecorregut(sentit);
-        while(!tree.finalRecorregut()){
-            try {
-                Jugador c=(Jugador)tree.segRecorregut();
-                System.out.print(c);
-            } catch (ArbreException e) {
-                e.printStackTrace();
-            }
-        }
-        System.out.println("\n");
-    }
-        else{
-            clonat.iniRecorregut(sentit);
-            while(!clonat.finalRecorregut()){
+        if (userChoice == 1) {
+            tree.iniRecorregut(sentit);
+            while (!tree.finalRecorregut()) {
                 try {
-                    Jugador c=(Jugador)clonat.segRecorregut();
+                    Jugador c = (Jugador) tree.segRecorregut();
                     System.out.print(c);
                 } catch (ArbreException e) {
-                    e.printStackTrace();
+                    System.out.println(e);
+                }
+            }
+            System.out.println("\n");
+        } else {
+            clonat.iniRecorregut(sentit);
+            while (!clonat.finalRecorregut()) {
+                try {
+                    Jugador c = (Jugador) clonat.segRecorregut();
+                    System.out.print(c);
+                } catch (ArbreException e) {
+                    System.out.println(e);
                 }
             }
             System.out.println("\n");
@@ -96,14 +94,13 @@ public class Main {
 
     }
 
-
     private static void EliminarJugador(AcbEnll tree) throws ArbreException {
         Scanner scanner = new Scanner(System.in);
         Posicio[] list = Posicio.values();
-        int userChoice =0;
+        int userChoice = 0;
         int userChoice2;
 
-        while(true) {
+        while (true) {
             for (int i = 1; i <= list.length; i++)
                 System.out.println(i + "-" + list[i - 1]);
             System.out.println("Indica la seva posició [1,5] ");
@@ -116,18 +113,18 @@ public class Main {
             }
         }
 
-        while(true) {
+        while (true) {
             System.out.println("Indica la seva posició [0,1000] ");
             userChoice2 = Integer.parseInt(scanner.nextLine());
             if (userChoice2 >= 0 && userChoice2 <= 1000) {
-                break; // 如果用户输入在合法范围内，跳出循环
+                break;
             } else {
                 System.out.println("Entrada inválida. Por favor introduzca un número entre 0 y 1000.");
 
             }
         }
 
-        Jugador Jordan = new Jugador(userChoice2,userChoice-1);
+        Jugador Jordan = new Jugador(userChoice2, userChoice - 1);
 
         if (tree.membre(Jordan)) {
             tree.esborrar(Jordan);
@@ -136,17 +133,15 @@ public class Main {
 
     }
 
-
-
     private static void InserirJugador(AcbEnll tree) throws ArbreException {
         Scanner scanner = new Scanner(System.in);
         Posicio[] list = Posicio.values();
-        int userChoice =0;
-        int userChoice2 =0;
+        int userChoice = 0;
+        int userChoice2 = 0;
 
-        while(true) {
+        while (true) {
             for (int i = 0; i < list.length; i++)
-                System.out.println(i+1 + "-" + list[i]);
+                System.out.println(i + 1 + "-" + list[i]);
             System.out.println("Indica la seva posició [1,5] ");
             userChoice = Integer.parseInt(scanner.nextLine());
             if (userChoice >= 1 && userChoice <= 5) {
@@ -157,7 +152,7 @@ public class Main {
             }
         }
 
-        while(true) {
+        while (true) {
             System.out.println("Indica la seva posició [0,1000] ");
             userChoice2 = Integer.parseInt(scanner.nextLine());
             if (userChoice2 >= 0 && userChoice2 <= 1000) {
@@ -168,24 +163,9 @@ public class Main {
             }
         }
 
-        Jugador Jordan = new Jugador(userChoice2,userChoice-1);
+        Jugador Jordan = new Jugador(userChoice2, userChoice - 1);
 
         tree.inserir(Jordan);
-
-
-        //先判断树是否为空，如果不是插入
-        /*if(tree.abBuit())  {
-            tree = new AcbEnll<Jugador>((Jugador) Jordan);
-        } else{
-            // 在这里插入逻辑
-            try {
-                tree.inserir((Jugador) Jordan);
-            } catch (ArbreException e) {
-                // 处理插入异常（如果有的话）
-                e.printStackTrace();
-            }
-        }*/
-
     }
 
     private static int pregunta() {
@@ -200,7 +180,7 @@ public class Main {
             System.out.print("\nTria una opció [1,5]: ");
             userChoice = Integer.parseInt(scanner.nextLine());
             if (userChoice >= 1 && userChoice <= 5) {
-                break; // 如果用户输入在合法范围内，跳出循环
+                break;
             } else {
                 System.out.println("Entrada inválida. Por favor introduzca un número entre 1 y 5.");
                 System.out.println("Tria una opció [1,5]: ");
