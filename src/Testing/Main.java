@@ -105,7 +105,7 @@ public class Main {
             System.out.println("Indica la seva posició [1,5] ");
             userChoice = Integer.parseInt(scanner.nextLine());
             if (userChoice >= 1 && userChoice <= 5) {
-                break; // 如果用户输入在合法范围内，跳出循环
+                break;
             } else {
                 System.out.println("Entrada inválida. Por favor introduzca un número entre 1 y 5.");
                 System.out.println("Tria una opció [1,5]: ");
@@ -143,7 +143,7 @@ public class Main {
             System.out.println("Indica la seva posició [1,5] ");
             userChoice = Integer.parseInt(scanner.nextLine());
             if (userChoice >= 1 && userChoice <= 5) {
-                break; // 如果用户输入在合法范围内，跳出循环
+                break;
             } else {
                 System.out.println("Entrada inválida. Por favor introduzca un número entre 1 y 5.");
                 System.out.println("Tria una opció [1,5]: ");
@@ -154,7 +154,7 @@ public class Main {
             System.out.println("Indica la seva posició [0,1000] ");
             userChoice2 = Integer.parseInt(scanner.nextLine());
             if (userChoice2 >= 0 && userChoice2 <= 1000) {
-                break; // 如果用户输入在合法范围内，跳出循环
+                break;
             } else {
                 System.out.println("Entrada inválida. Por favor introduzca un número entre 0 y 1000.");
 
