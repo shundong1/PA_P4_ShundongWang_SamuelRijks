@@ -21,32 +21,51 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
 
         private int cardinalitat() {
             int h = 0;
-            if (esq != null) h += esq.cardinalitat();
-            if (dret != null) h += dret.cardinalitat();
+            if (esq != null) {
+                h += esq.cardinalitat();
+            }
+            if (dret != null) {
+                h += dret.cardinalitat();
+            }
+
             return 1 + h;
         }
 
         public Object clone() {
-            Node copia = null;
+            Node copia;
             try {
                 copia = (Node) super.clone();
-                if (esq != null) copia.esq = (Node) esq.clone();
-                if (dret != null) copia.dret = (Node) dret.clone();
+
+                if (esq != null) {
+                    copia.esq = (Node) esq.clone();
+                }
+                if (dret != null) {
+                    copia.dret = (Node) dret.clone();
+                }
+
             } catch (CloneNotSupportedException e) {
-                System.out.println(e);
+                throw new RuntimeException("No s'ha pogut realitzar la clonació", e);
             }
             return copia;
         }
 
-        private Node inserir(E einf) throws ArbreException {
+        private void inserir(E einf) throws ArbreException {
             if (contingut.compareTo(einf) < 0) {
-                if (esq != null) esq.inserir(einf);
-                else esq = new Node(einf);
+                if (esq != null) {
+                    esq.inserir(einf);
+                } else {
+                    esq = new Node(einf);
+                }
             } else if (contingut.compareTo(einf) > 0) {
-                if (dret != null) dret.inserir(einf);
-                else dret = new Node(einf);
-            } else throw new ArbreException("element ja hi es");
-            return null;
+                if (dret != null) {
+                    dret.inserir(einf);
+                } else {
+                    dret = new Node(einf);
+                }
+            } else {
+                throw new ArbreException("element ja hi es");
+            }
+
         }
 
         private Node esborrar(E einf) throws ArbreException {
@@ -54,45 +73,69 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
                 if (esq != null) {
                     esq = esq.esborrar(einf);
                     return this;
-                } else throw new ArbreException("no hi es");
+                } else {
+                    throw new ArbreException("No hi es el jugador");
+                }
             } else if (contingut.compareTo(einf) > 0) {
                 if (dret != null) {
                     dret = dret.esborrar(einf);
                     return this;
-                } else throw new ArbreException("no hi es");
+                } else {
+                    throw new ArbreException("No hi es el jugador");
+                }
             } else if (esq != null && dret != null) {
                 contingut = dret.buscarMinim();
                 dret = dret.esborrar(contingut);
                 return this;
-            } else
-                return (
-                        (esq == null && dret == null) ?
-                                null :
-                                ((esq == null) ? dret : esq)
-                );
+            } else if (esq == null && dret == null) {
+                return null;
+            } else {
+                if (esq == null) {
+                    return dret;
+                } else {
+                    return esq;
+                }
+            }
         }
 
         private E buscarMinim() {
-            if (esq == null) return contingut;
-            Node a = esq;
-            while (a.esq != null) a = a.esq;
-            return a.contingut;
+            if (esq == null){
+                return contingut;
+            }
+            Node node = esq;
+            while (node.esq != null){
+                node = node.esq;
+            }
+            return node.contingut;
         }
 
-
         private boolean hiEs(E einf) {
-            if (contingut.compareTo(einf) < 0) return (esq == null) ? false : esq.hiEs(einf);
-            else if (contingut.compareTo(einf) > 0) return (dret == null) ? false : dret.hiEs(einf);
-            else return true;
+            if (contingut.compareTo(einf) < 0) {
+                return esq != null && esq.hiEs(einf);
+            } else if (contingut.compareTo(einf) > 0) {
+                return dret != null && dret.hiEs(einf);
+            } else {
+                return true;
+            }
         }
 
         public void inordre(boolean sentit, Queue<E> cua) {
-            Node a1 = (sentit) ? dret : esq;
-            Node a2 = (sentit) ? esq : dret;
+            Node node1, node2;
+            if (sentit) {
+                node1 = dret;
+                node2 = esq;
+            } else {
+                node1 = esq;
+                node2 = dret;
+            }
 
-            if (a1 != null) a1.inordre(sentit, cua);
+            if (node1 != null){
+                node1.inordre(sentit, cua);
+            }
             cua.add(contingut);
-            if (a2 != null) a2.inordre(sentit, cua);
+            if (node2 != null){
+                node2.inordre(sentit, cua);
+            }
         }
     }
 
@@ -101,8 +144,9 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
 
     public AcbEnll(Node a) {
         arrel = a;
-        cua = new LinkedList<E>();
+        cua = null;
     }
+
     public AcbEnll() {
         this(null);
     }
@@ -146,19 +190,26 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
 
     @Override
     public void inserir(E e) throws ArbreException {
-        if (arrel == null) arrel = new Node(e, null, null);
-        else arrel.inserir(e);
+        if (arrel == null) {
+            arrel = new Node(e, null, null);
+        } else {
+            arrel.inserir(e);
+        }
 
     }
+
     @Override
     public void esborrar(E e) throws ArbreException {
         if (cardinalitat() == 0) {
             throw new ArbreException("No es pot eliminar, l'arbre és buit");
         }
-        if (arrel == null) throw new ArbreException("l'arbre es buit");
+        if (arrel == null){
+            throw new ArbreException("l'arbre es buit");
+        }
         arrel = arrel.esborrar(e);
 
     }
+
     @Override
     public boolean membre(E e) throws ArbreException {
         if (arrel == null) {
@@ -184,15 +235,9 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
         }
     }
 
-
     public boolean finalRecorregut() {
-
-        if (arrel == null || cua.isEmpty()) {
-            return true;
-        }
-        return false;
+        return arrel == null || cua.isEmpty();
     }
-
 
     public E segRecorregut() throws ArbreException {
 
@@ -207,31 +252,43 @@ public class AcbEnll<E extends Comparable<E>> implements Acb<E>, Cloneable {
         if (cua.isEmpty()) {
             throw new ArbreException("S'ha produït una modificació de l'arbre entre iniRecorregut i segRecorregut");
         }
-        E element = cua.remove();
-        return element;
+
+        return cua.remove();
     }
 
     public Object clonar() throws ArbreException {
         if (cardinalitat() == 0) {
-            throw new ArbreException("No es pot visualitzar, l'arbre és buit");
+            throw new ArbreException("No es pot clonar, l'arbre és buit");
         }
         return clone();
     }
 
     public Object clone() {
-        AcbEnll<E> c = null;
+        AcbEnll<E> c;
         try {
             c = (AcbEnll<E>) super.clone();
-            c.arrel = (arrel == null) ? null : (Node) arrel.clone();
-            c.cua = (cua == null) ? null : (Queue<E>) ((LinkedList<E>) cua).clone();
+            if (arrel == null) {
+                c.arrel = null;
+            } else {
+                c.arrel = (Node) arrel.clone();
+            }
+            if (cua == null) {
+                c.cua = null;
+            } else {
+                c.cua = (Queue<E>) ((LinkedList<E>) cua).clone();
+            }
         } catch (CloneNotSupportedException e) {
-            System.out.println(e);
+            throw new RuntimeException("No s'ha pogut realitzar la clonació", e);
         }
         return c;
     }
 
     public int cardinalitat() {
-        return (abBuit()) ? 0 : arrel.cardinalitat();
+        if (abBuit()) {
+            return 0;
+        } else {
+            return arrel.cardinalitat();
+        }
     }
 
 

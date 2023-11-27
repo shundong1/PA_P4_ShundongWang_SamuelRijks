@@ -38,8 +38,8 @@ public class Main {
 
     private static void Visualitzar(AcbEnll tree, AcbEnll<Jugador> clonat) throws ArbreException {
         Scanner scanner = new Scanner(System.in);
-        int userChoice = 0;
-        int userChoice2 = 0;
+        int userChoice,  userChoice2;
+
         boolean sentit = true;
         while (true) {
             System.out.println("Indica en quin arbre vols mostrar");
@@ -75,7 +75,7 @@ public class Main {
                     Jugador c = (Jugador) tree.segRecorregut();
                     System.out.print(c);
                 } catch (ArbreException e) {
-                    System.out.println(e);
+                    throw e;
                 }
             }
             System.out.println("\n");
@@ -86,7 +86,7 @@ public class Main {
                     Jugador c = (Jugador) clonat.segRecorregut();
                     System.out.print(c);
                 } catch (ArbreException e) {
-                    System.out.println(e);
+                    throw e;
                 }
             }
             System.out.println("\n");
@@ -97,8 +97,7 @@ public class Main {
     private static void EliminarJugador(AcbEnll tree) throws ArbreException {
         Scanner scanner = new Scanner(System.in);
         Posicio[] list = Posicio.values();
-        int userChoice = 0;
-        int userChoice2;
+        int userChoice, userChoice2;
 
         while (true) {
             for (int i = 1; i <= list.length; i++)
@@ -136,8 +135,7 @@ public class Main {
     private static void InserirJugador(AcbEnll tree) throws ArbreException {
         Scanner scanner = new Scanner(System.in);
         Posicio[] list = Posicio.values();
-        int userChoice = 0;
-        int userChoice2 = 0;
+        int userChoice, userChoice2;
 
         while (true) {
             for (int i = 0; i < list.length; i++)
